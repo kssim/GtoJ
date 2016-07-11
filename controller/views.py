@@ -4,13 +4,13 @@ from django.template import Context
 from django.template.context_processors import csrf
 from rest_framework import mixins
 from rest_framework.generics import GenericAPIView
-from controller.models import TcInfo
-from controller.serializer import TcInfoSerializer
+from controller.models import DataInfo
+from controller.serializer import DataItemSerializer
 
 
-class TcListApi(GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
-    queryset = TcInfo.objects.all()
-    serializer_class = TcInfoSerializer
+class DataListApi(GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+    queryset = DataInfo.objects.all()
+    serializer_class = DataItemSerializer
 
     def get(self, request, *args, **kargs):
         return self.list(request, *args, **kargs)
@@ -19,9 +19,9 @@ class TcListApi(GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
         return self.create(request, *args, **kargs)
 
 
-class TcItemApi(GenericAPIView, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin):
-    queryset = TcInfo.objects.all()
-    serializer_class = TcInfoSerializer
+class DataItemApi(GenericAPIView, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin):
+    queryset = DataInfo.objects.all()
+    serializer_class = DataItemSerializer
 
     def get(self, request, *args, **kargs):
         return self.retrieve(request, *args, **kargs)

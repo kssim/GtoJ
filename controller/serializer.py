@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from controller.models import TcInfo
+from controller.models import DataInfo
 
-class TcInfoSerializer(serializers.ModelSerializer):
+class DataItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TcInfo
+        model = DataInfo

@@ -18,11 +18,11 @@ from django.conf.urls.static import static
 from controller.views import main_view
 from django.views.generic import TemplateView
 from GtoJ import settings
-from controller.views import TcItemApi, TcListApi
+from controller.views import DataItemApi, DataListApi
 
 urlpatterns = patterns('',
     url(r'^$', main_view),
     url(r'^robots.txt$', TemplateView.as_view(template_name='robots.txt')),
-    url(r'^api/data/$', TcListApi.as_view()),
-    url(r'^api/data/(?P<pk>\d+)/$', TcItemApi.as_view()),
+    url(r'^api/data/$', DataListApi.as_view()),
+    url(r'^api/data/(?P<pk>\d+)/$', DataItemApi.as_view()),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
