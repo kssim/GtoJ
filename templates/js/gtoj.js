@@ -1,13 +1,6 @@
-function requiredFieldValidator(value) {
-    if (value == null || value == undefined || !value.length) {
-        return {valid: false, msg: "This is a required field"};
-    } else {
-        return {valid: true, msg: null};
-    }
-}
-
 var grid;
-var data = [];
+var saved_data = {};
+
 var columns = [
     {id: "index", name: "Index", field: "index", width: 80, cssClass: "cell-title", editor: Slick.Editors.Text, validator: requiredFieldValidator},
     {id: "data1", name: "Data1", field: "data1", width: 80, editor: Slick.Editors.Text},
@@ -24,16 +17,17 @@ var options = {
     autoEdit: false
 };
 
-$(function () {
-    for (var i = 0; i < 20; i++) {
-        var d = (data[i] = {});
-        d["index"] = i;
-        d["data1"] = "";
-        d["data2"] = "";
-        d["data3"] = "";
-        d["desc"] = "";
+
+function requiredFieldValidator(value) {
+    if (value == null || value == undefined || !value.length) {
+        return {valid: false, msg: "This is a required field"};
+    } else {
+        return {valid: true, msg: null};
     }
-    grid = new Slick.Grid("#myGrid", data, columns, options);
+}
+
+function refresh_grid(grid_data) {
+    grid = new Slick.Grid("#myGrid", grid_data, columns, options);
     grid.setSelectionModel(new Slick.CellSelectionModel());
     grid.onAddNewRow.subscribe(function (e, args) {
         var item = args.item;
@@ -42,33 +36,26 @@ $(function () {
         grid.updateRowCount();
         grid.render();
     });
-
-    grid.onCurrentCellChanged = function(args){
-        data[args.row][grid.getColumns()[args.cell].field]
-    };
-})
+}
 
 
-$('#save_form_data').on('submit', function(event) {
-    event.preventDefault();
+function init_grid() {
+    var grid_data = [];
 
-    document_name = document.getElementById("document_name").value
-    if (document_name == "") {
-        alert("Please input your document title.");
-        return
+    for (var i = 0; i < 20; i++) {
+        var d = (grid_data[i] = {});
+        d["index"] = i;
+        d["data1"] = "";
+        d["data2"] = "";
+        d["data3"] = "";
+        d["desc"] = "";
     }
 
-    getting_data();
-    save_data();
-});
+    return grid_data;
+}
 
-var saved_data = {};
-function getting_data() {
-    for (var i = 0; i<grid.getDataLength(); i++) {
-        if (grid.getDataItem(i).sequence == '') {
-            continue;
-        }
-
+function get_grid_data() {
+    for (var i = 0; i < grid.getDataLength(); i++) {
         var d = (saved_data[i] = {});
         d["index"] = grid.getDataItem(i).index;
         d["data1"] = grid.getDataItem(i).data1;
@@ -78,7 +65,7 @@ function getting_data() {
     }
 }
 
-function save_data() {
+function save_grid_data() {
     $.ajax({
         url : "api/data/",
         type : "POST",
@@ -91,3 +78,63 @@ function save_data() {
         }
     })
 }
+
+function setDocumentName(name) {
+    document.getElementById("document_name").value = name;
+}
+
+function get_data(index) {
+    $.getJSON("api/data/".concat(index), function (db_data) {
+        data = jQuery.parseJSON(db_data.data_list);
+
+        setDocumentName(db_data.name);
+
+        var grid_data = [];
+        for (var i=0; i < 20; i++) {
+            var d = (grid_data[i] = {});
+            d["index"] = data[i].index;
+            d["data1"] = data[i].data1;
+            d["data2"] = data[i].data2;
+            d["data3"] = data[i].data3;
+            d["desc"] = data[i].desc;
+        }
+
+        refresh_grid(grid_data);
+    });
+}
+
+$(function () {
+    grid_data = init_grid();
+    refresh_grid(grid_data);
+
+    grid.onCurrentCellChanged = function(args){
+        data[args.row][grid.getColumns()[args.cell].field]
+    };
+})
+
+$(document).ready(function() {
+    $('#select_data_name').change(function() {
+        var selection = document.getElementById("select_data_name");
+        if (selection.selectedIndex != 0) {
+            init_grid();
+            get_data(selection.options[selection.selectedIndex].value);
+        }
+    });
+});
+
+$('#save_form_data').on('submit', function(event) {
+    event.preventDefault();
+
+    document_name = document.getElementById("document_name").value
+    if (document_name == "") {
+        alert("Please input your document title.");
+        return
+    }
+
+    get_grid_data();
+    save_grid_data();
+
+    setDocumentName("");
+    grid_data = init_grid();
+    refresh_grid(grid_data);
+});

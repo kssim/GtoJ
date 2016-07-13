@@ -10,12 +10,12 @@
         .cell-title {
             font-weight: bold;
         }
-
         .cell-effort-driven {
             text-align: center;
         }
     </style>
 </head>
+
 <body>
 <br>
 <br>
@@ -38,6 +38,13 @@
             </ul>
             &nbsp;&nbsp;&nbsp;
             <button type="submit" name="save">save</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <select id="select_data_name">
+                <option value="" disabled selected>Saved data list</option>
+                {% for data in data_list %}
+                    <option value="{{ data.index }}">{{ data.name }}</option>
+                {% endfor %}
+            </select>
         </div>
     </form>
 </div>
@@ -55,5 +62,8 @@
 <script src="/lib/js/slick.editors.js"></script>
 <script src="/lib/js/slick.grid.js"></script>
 <script src="/lib/js/gtoj.js"></script>
+
 </body>
 </html>
+
+{#{"0":{"index":0,"desc":""},"1":{"index":1,"desc":""},"2":{"index":2,"desc":""},"3":{"index":3,"desc":""},"4":{"index":4,"desc":""},"5":{"index":5,"desc":""},"6":{"index":6,"desc":""},"7":{"index":7,"desc":""},"8":{"index":8,"desc":""},"9":{"index":9,"desc":""},"10":{"index":10,"desc":""},"11":{"index":11,"desc":""},"12":{"index":12,"desc":""},"13":{"index":13,"desc":""},"14":{"index":14,"desc":""},"15":{"index":15,"desc":""},"16":{"index":16,"desc":""},"17":{"index":17,"desc":""},"18":{"index":18,"desc":""},"19":{"index":19,"desc":""}}#}

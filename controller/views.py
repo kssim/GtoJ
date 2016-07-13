@@ -33,7 +33,9 @@ class DataItemApi(GenericAPIView, mixins.RetrieveModelMixin, mixins.DestroyModel
 def main_view(request):
     template = get_template("main.html")
 
-    context = Context({})
+    data_list = DataInfo.objects.all()
+
+    context = Context({'data_list': data_list})
     context.update(csrf(request))
 
     return HttpResponse(template.render(context))
