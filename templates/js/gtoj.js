@@ -103,6 +103,12 @@ function get_data(index) {
     });
 }
 
+function clearGrid() {
+    setDocumentName("");
+    grid_data = init_grid();
+    refresh_grid(grid_data);
+}
+
 $(function () {
     grid_data = init_grid();
     refresh_grid(grid_data);
@@ -133,8 +139,5 @@ $('#save_form_data').on('submit', function(event) {
 
     get_grid_data();
     save_grid_data();
-
-    setDocumentName("");
-    grid_data = init_grid();
-    refresh_grid(grid_data);
+    clearGrid();
 });
