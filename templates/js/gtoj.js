@@ -1,8 +1,7 @@
 var grid;
-var saved_data = {};
 
 var columns = [
-    {id: "index", name: "Index", field: "index", width: 80, cssClass: "cell-title", editor: Slick.Editors.Text, validator: requiredFieldValidator},
+    {id: "index", name: "Index", field: "index", width: 80, cssClass: "cell-title", editor: Slick.Editors.Text, validator: required_field_vaildator},
     {id: "data1", name: "Data1", field: "data1", width: 80, editor: Slick.Editors.Text},
     {id: "data2", name: "Data2", field: "data2", width: 80, editor: Slick.Editors.Text},
     {id: "data2", name: "Data3", field: "data3", width: 80, editor: Slick.Editors.Text},
@@ -18,7 +17,7 @@ var options = {
 };
 
 
-function requiredFieldValidator(value) {
+function required_field_vaildator(value) {
     if (value == null || value == undefined || !value.length) {
         return {valid: false, msg: "This is a required field"};
     } else {
@@ -38,7 +37,6 @@ function refresh_grid(grid_data) {
     });
 }
 
-
 function init_grid() {
     var grid_data = [];
 
@@ -54,7 +52,8 @@ function init_grid() {
     return grid_data;
 }
 
-function get_grid_data() {
+function save_grid_data() {
+    var saved_data = {};
     for (var i = 0; i < grid.getDataLength(); i++) {
         var d = (saved_data[i] = {});
         d["index"] = grid.getDataItem(i).index;
@@ -63,9 +62,7 @@ function get_grid_data() {
         d["data3"] = grid.getDataItem(i).data3;
         d["desc"] = grid.getDataItem(i).desc;
     }
-}
 
-function save_grid_data() {
     $.ajax({
         url : "api/data/",
         type : "POST",
@@ -79,7 +76,7 @@ function save_grid_data() {
     })
 }
 
-function setDocumentName(name) {
+function set_document_name(name) {
     document.getElementById("document_name").value = name;
 }
 
@@ -87,7 +84,7 @@ function get_data(index) {
     $.getJSON("api/data/".concat(index), function (db_data) {
         data = jQuery.parseJSON(db_data.data_list);
 
-        setDocumentName(db_data.name);
+        set_document_name(db_data.name);
 
         var grid_data = [];
         for (var i=0; i < 20; i++) {
@@ -103,11 +100,19 @@ function get_data(index) {
     });
 }
 
-function clearGrid() {
-    setDocumentName("");
+function clear_grid() {
+    set_document_name("");
     grid_data = init_grid();
     refresh_grid(grid_data);
+
+    $('#select_data_name option:eq(0)').attr('selected','selected');
 }
+
+function add_select_item(document_name) {
+    index = $('#select_data_name option').size();
+    $('#select_data_name').append('<option value=' + index + '>' + document_name + '</option>');
+}
+
 
 $(function () {
     grid_data = init_grid();
@@ -137,7 +142,7 @@ $('#save_form_data').on('submit', function(event) {
         return
     }
 
-    get_grid_data();
     save_grid_data();
-    clearGrid();
+    clear_grid();
+    add_select_item(document_name);
 });
