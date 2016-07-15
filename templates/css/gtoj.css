@@ -79,7 +79,20 @@ li {
   margin-bottom: 20px;
   width: 320px;
   position: absolute;
-  top: 0px;
+  top: 30px;
+  left: 650px;
+}
+
+.table-setting-panel {
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border: 1px solid silver;
+  background: #f0f0f0;
+  padding: 4px;
+  margin-bottom: 20px;
+  width: 320px;
+  position: absolute;
+  top: 180px;
   left: 650px;
 }
 

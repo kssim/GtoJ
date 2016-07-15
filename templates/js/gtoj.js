@@ -26,6 +26,8 @@ function required_field_vaildator(value) {
 }
 
 function refresh_grid(grid_data) {
+    clear_row_count();
+
     grid = new Slick.Grid("#myGrid", grid_data, columns, options);
     grid.setSelectionModel(new Slick.CellSelectionModel());
     grid.onAddNewRow.subscribe(function (e, args) {
@@ -37,10 +39,10 @@ function refresh_grid(grid_data) {
     });
 }
 
-function init_grid() {
+function init_grid(row_count=20) {
     var grid_data = [];
 
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < row_count; i++) {
         var d = (grid_data[i] = {});
         d["index"] = i;
         d["data1"] = "";
@@ -86,8 +88,10 @@ function get_data(index) {
 
         set_document_name(db_data.name);
 
+        grid_row_count = Object.keys(data).length;
+
         var grid_data = [];
-        for (var i=0; i < 20; i++) {
+        for (var i=0; i < grid_row_count; i++) {
             var d = (grid_data[i] = {});
             d["index"] = data[i].index;
             d["data1"] = data[i].data1;
@@ -108,9 +112,19 @@ function clear_grid() {
     $('#select_data_name option:eq(0)').attr('selected','selected');
 }
 
+function clear_row_count() {
+    document.getElementById("set_row_count").value = "";
+}
+
 function add_select_item(document_name) {
     index = $('#select_data_name option').size();
     $('#select_data_name').append('<option value=' + index + '>' + document_name + '</option>');
+}
+
+function set_grid_row() {
+    row_count = $('#set_row_count').val();
+    grid_data = init_grid(row_count);
+    refresh_grid(grid_data);
 }
 
 
