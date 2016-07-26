@@ -10,6 +10,7 @@
         .cell-title {
             font-weight: bold;
         }
+
         .cell-effort-driven {
             text-align: center;
         }
@@ -19,25 +20,21 @@
 <body>
 <br>
 <br>
+
 <div style="position:relative">
     <form action="/save_data/" method="post" id="save_form_data">
-        <div>
-            <input type="text" id="document_name" placeholder="Document name" style="width:300px;"/>
-        </div>
-        <br/>
-        <div style="width:620px;">
-            <div id="myGrid" style="width:100%;height:550px;"></div>
-        </div>
-
         <div class="options-panel">
             <h2>Simple translater(Grid to Json)</h2>
             <ul>
-                <li>It's simple translater for grid date to json.</li>
+                <li>It's simple
+                    <translater></translater>
+                    for grid date to json.
+                </li>
                 <li>Input a data in grid, and then press the 'save' button</li>
                 <li>When the save is complete, you can show data in the db.</li>
             </ul>
             &nbsp;&nbsp;&nbsp;
-            <input type="submit" value="save" />
+            <input type="submit" value="save"/>
             <input type="button" value="clear" onclick="clear_grid();"/>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <select id="select_data_name">
@@ -47,16 +44,23 @@
                 {% endfor %}
             </select>
         </div>
-    </form>
-    <div class="table-setting-panel">
-        <h2>Table setting</h2>
-        <div>
-            &nbsp;&nbsp;&nbsp;
-            <input type="text" id="set_row_count" placeholder="Row count" style="width: 150px;"/>
-            &nbsp;&nbsp;
-            <input type="button" value="configure" onclick="set_grid_row();"/>
+        <div class="table-setting-panel">
+            <h2>Table setting</h2>
+
+            <div>
+                &nbsp;&nbsp;&nbsp;
+                <input type="text" id="set_row_count" placeholder="Row count" style="width: 150px;"/>
+                &nbsp;&nbsp;
+                <input type="button" value="configure" onclick="set_grid_row();"/>
+            </div>
         </div>
-    </div>
+        <div class="document-title">
+            <input type="text" id="document_name" placeholder="Document name" style="width:300px;"/>
+        </div>
+        <div style="width:750px;">
+            <div id="myGrid" style="width:100%;height:550px;"></div>
+        </div>
+    </form>
 </div>
 
 

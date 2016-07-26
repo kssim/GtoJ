@@ -34,6 +34,7 @@ li {
   background: white;
   outline: 0;
   border: 1px solid gray;
+  top: 180px;
 }
 
 .grid-header {
@@ -70,6 +71,11 @@ li {
   border: 1px solid silver;
 }
 
+.document-title {
+  position: absolute;
+  top: 150px;
+}
+
 .options-panel {
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
@@ -79,8 +85,6 @@ li {
   margin-bottom: 20px;
   width: 320px;
   position: absolute;
-  top: 30px;
-  left: 650px;
 }
 
 .table-setting-panel {
@@ -92,8 +96,7 @@ li {
   margin-bottom: 20px;
   width: 320px;
   position: absolute;
-  top: 180px;
-  left: 650px;
+  left: 350px;
 }
 
 /* Individual cell styles */
