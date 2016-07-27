@@ -20,17 +20,6 @@ var columns = [
         resizable: false,
         formatter: Slick.Formatters.PercentCompleteBar
     },
-    {
-        id: "effort-driven",
-        name: "Effort Driven",
-        sortable: false,
-        width: 80,
-        minWidth: 20,
-        maxWidth: 80,
-        cssClass: "cell-effort-driven",
-        field: "effortDriven",
-        formatter: Slick.Formatters.Checkmark
-    },
     {id: "desc", name: "Description", field: "desc", width: 220, editor: Slick.Editors.LongText},
 ];
 
@@ -75,7 +64,6 @@ function init_grid(row_count=20) {
         d["duration"] = "";
         d["percent_complete"] = "0";
         d["graph_complete"] = Math.min(100, 0);
-        d["effortDriven"] = (i % 3 == 0);
         d["desc"] = "";
     }
 
@@ -90,7 +78,6 @@ function save_grid_data() {
         d["title"] = grid.getDataItem(i).title;
         d["duration"] = grid.getDataItem(i).duration;
         d["percent_complete"] = grid.getDataItem(i).percent_complete;
-        d["effortDriven"] = grid.getDataItem(i).effortDriven;
         d["desc"] = grid.getDataItem(i).desc;
     }
 
@@ -120,15 +107,16 @@ function get_data(index) {
 
         grid_row_count = Object.keys(data).length;
 
+
         var grid_data = [];
         for (var i = 0; i < grid_row_count; i++) {
             var d = (grid_data[i] = {});
-            d["index"] = grid.getDataItem(i).index;
-            d["title"] = grid.getDataItem(i).title;
-            d["duration"] = grid.getDataItem(i).duration;
-            d["percent_complete"] = grid.getDataItem(i).percent_complete;
-            d["effortDriven"] = grid.getDataItem(i).effortDriven;
-            d["desc"] = grid.getDataItem(i).desc;
+            d["index"] = data[i].index;
+            d["title"] = data[i].title;
+            d["duration"] = data[i].duration;
+            d["percent_complete"] = data[i].percent_complete;
+            d["graph_complete"] = Math.min(100, data[i].percent_complete);
+            d["desc"] = data[i].desc;
         }
 
         refresh_grid(grid_data);
