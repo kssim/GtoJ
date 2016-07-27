@@ -1,4 +1,5 @@
 var grid;
+var commandQueue = [];
 
 var columns = [
     {
@@ -14,12 +15,13 @@ var columns = [
     {id: "percent_complete", name: "Complete(%)", field: "percent_complete", editor: Slick.Editors.Text, width: 85},
     {
         id: "graph_complete",
-        name: "Complete",
+        name: "Graph",
         field: "graph_complete",
         width: 80,
         resizable: false,
         formatter: Slick.Formatters.PercentCompleteBar
     },
+    {id: "checked", name: "Checked", width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "checked", formatter: Slick.Formatters.Checkmark, editor: Slick.Editors.Checkbox},
     {id: "desc", name: "Description", field: "desc", width: 220, editor: Slick.Editors.LongText},
 ];
 
@@ -28,7 +30,8 @@ var options = {
     enableAddRow: true,
     enableCellNavigation: true,
     asyncEditorLoading: false,
-    autoEdit: false
+    autoEdit: false,
+    editCommandHandler: queueAndExecuteCommand
 };
 
 
@@ -64,6 +67,7 @@ function init_grid(row_count=20) {
         d["duration"] = "";
         d["percent_complete"] = "0";
         d["graph_complete"] = Math.min(100, 0);
+        d["checked"] = false
         d["desc"] = "";
     }
 
@@ -78,6 +82,7 @@ function save_grid_data() {
         d["title"] = grid.getDataItem(i).title;
         d["duration"] = grid.getDataItem(i).duration;
         d["percent_complete"] = grid.getDataItem(i).percent_complete;
+        d["checked"] = grid.getDataItem(i).checked;
         d["desc"] = grid.getDataItem(i).desc;
     }
 
@@ -116,6 +121,7 @@ function get_data(index) {
             d["duration"] = data[i].duration;
             d["percent_complete"] = data[i].percent_complete;
             d["graph_complete"] = Math.min(100, data[i].percent_complete);
+            d["checked"] = data[i].checked;
             d["desc"] = data[i].desc;
         }
 
@@ -146,6 +152,18 @@ function set_grid_row() {
     refresh_grid(grid_data);
 }
 
+function queueAndExecuteCommand(item, column, editCommand) {
+    commandQueue.push(editCommand);
+    editCommand.execute();
+  }
+
+function undo() {
+    var command = commandQueue.pop();
+    if (command && Slick.GlobalEditorLock.cancelCurrentEdit()) {
+        command.undo();
+        grid.gotoCell(command.row, command.cell, false);
+    }
+}
 
 $(function () {
     grid_data = init_grid();

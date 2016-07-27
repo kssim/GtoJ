@@ -33,6 +33,7 @@
                 <li>Input a data in grid, and then press the 'save' button</li>
                 <li>When the save is complete, you can show data in the db.</li>
             </ul>
+            <br />
             &nbsp;&nbsp;&nbsp;
             <input type="submit" value="save"/>
             <input type="button" value="clear" onclick="clear_grid();"/>
@@ -57,10 +58,17 @@
         <div class="document-title">
             <input type="text" id="document_name" placeholder="Document name" style="width:300px;"/>
         </div>
-        <div style="width:670px;">
+        <div style="width:750px;">
             <div id="myGrid" style="width:100%;height:550px;"></div>
         </div>
     </form>
+    <div class="control-panel">
+        <h2>Controls</h2>
+        <div>
+            &nbsp;&nbsp;&nbsp;
+            <button onclick="undo()"><img src="/lib/images/arrow_undo.png" align="absmiddle"> Undo</button>
+        </div>
+    </div>
 </div>
 
 

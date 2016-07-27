@@ -34,7 +34,7 @@ li {
   background: white;
   outline: 0;
   border: 1px solid gray;
-  top: 180px;
+  top: 210px;
 }
 
 .grid-header {
@@ -73,7 +73,7 @@ li {
 
 .document-title {
   position: absolute;
-  top: 150px;
+  top: 180px;
 }
 
 .options-panel {
@@ -83,6 +83,7 @@ li {
   background: #f0f0f0;
   padding: 4px;
   margin-bottom: 20px;
+  height: 140px;
   width: 320px;
   position: absolute;
 }
@@ -97,6 +98,19 @@ li {
   width: 320px;
   position: absolute;
   left: 350px;
+}
+
+.control-panel {
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border: 1px solid silver;
+  background: #f0f0f0;
+  padding: 4px;
+  margin-bottom: 20px;
+  width: 320px;
+  position: absolute;
+  left: 350px;
+  top: 80px;
 }
 
 /* Individual cell styles */
